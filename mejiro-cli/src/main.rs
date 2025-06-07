@@ -1,4 +1,5 @@
 use clap::{Parser, Subcommand};
+use config::MejiroConfig;
 use mejiro_cli::compile::compile;
 use mejiro_cli::new::new;
 
@@ -11,6 +12,12 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Commands {
+    Init {
+        #[arg(short, long, default_value = "./mejiro.yml")]
+        config_file: String,
+        #[arg(short, long, default_value = "./posts")]
+        posts_dir: String,
+    },
     /// Create a new blog post
     New {
         #[arg(short, long, default_value = "./posts")]
@@ -31,6 +38,12 @@ fn main() {
     let cli = Cli::parse();
 
     match cli.command {
+        Commands::Init {
+            config_file,
+            posts_dir,
+        } => {
+            MejiroConfig::initialize_config(&config_file, &posts_dir);
+        }
         Commands::New { output } => {
             new(&output);
         }

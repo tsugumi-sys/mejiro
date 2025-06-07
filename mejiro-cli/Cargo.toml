@@ -2,6 +2,13 @@
 name = "mejiro-cli"
 version = "0.1.0"
 edition = "2024"
+description = "A CLI tool for Mejiro"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/tsugumi-sys/mejiro" 
+readme = "README.md" 
+keywords = ["cli", "mejiro", "tool", "blog"]
+categories = ["command-line-utilities"]
+
 
 [dependencies]
 chrono = "0.4.41"

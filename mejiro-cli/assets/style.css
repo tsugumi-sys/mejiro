@@ -1,0 +1,146 @@
+/* Body and layout */
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #0f172a;
+  color: #e2e8f0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar styling like trstringer.com */
+aside {
+  width: 220px;
+  background-color: #0f172a;
+  border-right: 1px solid #1e293b;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+}
+
+aside .logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+aside .logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+aside .logo span {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #f8fafc;
+}
+
+aside .links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+aside .links a {
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+aside .links a:hover {
+  color: #38bdf8;
+  text-decoration: underline;
+}
+
+/* Main content */
+main {
+  flex: 1;
+  margin-left: 300px; /* Space for sidebar */
+  padding: 4rem 2rem;
+  max-width: 800px;
+}
+
+main h1 {
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 2rem;
+}
+
+li a {
+  color: #f1f5f9;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: #38bdf8;
+}
+
+li .summary {
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+li .topics{
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+
+li .published-at {
+  font-size: 0.7rem;
+  color: #64748b;
+}
+
+/* Footer styling */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #64748b;
+  font-size: 0.75rem;
+  margin-left: 220px; /* Align with main content */
+  border-top: 1px solid #1e293b;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .container {
+    flex-direction: column;
+  }
+
+  aside {
+    width: 100%;
+    position: static;
+    border-right: none;
+    border-bottom: 1px solid #1e293b;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  main {
+    margin-left: 0;
+    padding: 2rem 1rem;
+  }
+
+  footer {
+    margin-left: 0;
+  }
+}
+
