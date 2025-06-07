@@ -3,11 +3,11 @@ name: Release Binary
 on:
   push:
     tags:
-      - "v*.*.*"  # e.g., v0.1.0
+      - "v*.*.*"
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
@@ -44,5 +44,5 @@ jobs:
         with:
           files: target/${{ matrix.target }}/release/mejiro-cli-${{ matrix.target }}.tar.gz
         env:
-          GITHUB_TOKEN: ${{ secrets.PARSONAL_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_TOKEN }}
 
