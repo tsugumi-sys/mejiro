@@ -53,7 +53,6 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     }
 
     // Build post pages.
-    // NOTE: Post HTML files are created in the `posts` subdirectory, so we need to specify a relative path.
     let icon_path = format!("../{}", icon_file_name);
     let aside = html::aside_html(
         &config.owner.name,
@@ -64,13 +63,23 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     let footer = html::footer_html(&config.site_title);
     let icon = html::icon_html(&icon_path);
 
-    // Collect published posts
-    let posts: Vec<Post> = WalkDir::new(input_dir)
+    // Collect published posts, logging errors explicitly
+    let mut posts: Vec<Post> = Vec::new();
+    for entry in WalkDir::new(input_dir)
         .into_iter()
         .filter_map(Result::ok)
         .filter(|entry| entry.path().extension().map(|e| e == "md").unwrap_or(false))
-        .filter_map(|entry| Post::from_markdown_file(entry.path()))
-        .collect();
+    {
+        match Post::from_markdown_file(entry.path()) {
+            Ok(Some(post)) => posts.push(post),
+            Ok(None) => {
+                println!("ℹ️ Skipping unpublished post: {}", entry.path().display());
+            }
+            Err(e) => {
+                eprintln!("❌ Error parsing {}: {}", entry.path().display(), e);
+            }
+        }
+    }
 
     // Build each post page
     for post in &posts {

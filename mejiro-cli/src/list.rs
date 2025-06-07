@@ -5,7 +5,7 @@ use walkdir::WalkDir;
 
 fn parse_meta(path: &Path) -> Option<BlogMeta> {
     let content = fs::read_to_string(path).ok()?;
-    let (meta, _) = BlogMeta::from_markdown_str(&content)?;
+    let (meta, _) = BlogMeta::from_markdown_str(&content).ok()?;
     Some(meta)
 }
 
