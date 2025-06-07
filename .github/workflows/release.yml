@@ -35,7 +35,7 @@ jobs:
         run: cargo build --release --target ${{ matrix.target }}
 
       - name: Package binary
-        working-directory: mejiro-cli/target/${{ matrix.target }}/release
+        working-directory: target/${{ matrix.target }}/release
         run: |
           tar czf mejiro-cli-${{ matrix.target }}.tar.gz mejiro-cli
 
