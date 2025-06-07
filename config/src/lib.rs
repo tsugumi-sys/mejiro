@@ -26,8 +26,13 @@ fn default_images_dir() -> String {
 impl MejiroConfig {
     /// Load blog configuration from YAML
     pub fn load_config(config_path: &str) -> Self {
-        let contents = fs::read_to_string(config_path).expect("Could not read the config file");
-        serde_yaml::from_str(&contents).expect("Failed to parse YAML file")
+        let contents = fs::read_to_string(config_path).unwrap_or_else(|e| {
+            panic!("❌ Could not read the config file: {} ({})", config_path, e);
+        });
+
+        serde_yaml::from_str(&contents).unwrap_or_else(|e| {
+            panic!("❌ Failed to parse YAML file '{}': {}", config_path, e);
+        })
     }
 
     /// Returns the embedded default CSS as a string
