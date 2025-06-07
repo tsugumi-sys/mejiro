@@ -34,16 +34,16 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     }
 
     // Build post pages.
-    // NOTE: post html are created under the posts sub directory. so we need to specify relateive path.
-    let relative_icon_path = &format!("../{}", icon_file_name);
+    // NOTE: Post HTML files are created in the `posts` subdirectory, so we need to specify a relative path.
+    let icon_path = &format!("../{}", icon_file_name);
     let aside = html::aside_html(
         &config.owner.name,
         &config.owner.github_link,
         &config.owner.linkedin_link,
-        &relative_icon_path,
+        &icon_path,
     );
     let footer = html::footer_html(&config.site_title);
-    let icon = html::icon_html(&relative_icon_path);
+    let icon = html::icon_html(&icon_path);
 
     // Collect published posts
     let posts: Vec<Post> = WalkDir::new(input_dir)
