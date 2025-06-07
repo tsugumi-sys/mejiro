@@ -14,7 +14,7 @@
 ## 🚀 Installation
 
 ```bash
-cargo install mejiro-cli
+curl -fsSL https://raw.githubusercontent.com/tsugumi-sys/mejiro/main/install/install.sh | bash
 ```
 
 
