@@ -1,17 +1,16 @@
+![Description](assets/mejiro-wide.png)
+
+---
+
 # mejiro-cli
 
 **mejiro-cli** is a tiny blog management CLI tool, inspired by the **mejiro** (a small bird in Japan). This CLI helps you manage a small, personal blog by creating new posts and compiling Markdown files into static HTML.
 
-![Description](assets/mejiro.png)
-
----
 
 ## ✨ Features
 
 - **New Post**: Quickly create a new Markdown article.
 - **Compile**: Compile your Markdown posts into static HTML files you can serve anywhere.
-
----
 
 ## 🚀 Installation
 
