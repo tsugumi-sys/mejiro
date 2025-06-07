@@ -1,0 +1,48 @@
+name: Release Binary
+
+on:
+  push:
+    tags:
+      - "v*.*.*"  # e.g., v0.1.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            archive: tar.gz
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            archive: tar.gz
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            archive: tar.gz
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          target: ${{ matrix.target }}
+
+      - name: Build binary
+        working-directory: mejiro-cli
+        run: cargo build --release --target ${{ matrix.target }}
+
+      - name: Package binary
+        working-directory: mejiro-cli/target/${{ matrix.target }}/release
+        run: |
+          tar czf mejiro-cli-${{ matrix.target }}.tar.gz mejiro-cli
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: mejiro-cli/target/${{ matrix.target }}/release/mejiro-cli-${{ matrix.target }}.tar.gz
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
