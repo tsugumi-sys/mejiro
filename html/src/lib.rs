@@ -1,10 +1,11 @@
-use serde::{Deserialize, Serialize};
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct BlogMeta {
-    pub title: String,
-    pub topics: Vec<String>,
-    pub published: bool,
-    pub published_at: String,
-    pub tldr: Option<String>,
-}
+mod aside;
+mod footer;
+mod icon;
+mod index;
+pub mod metadata;
+mod post;
+pub use aside::aside_html;
+pub use footer::footer_html;
+pub use icon::icon_html;
+pub use index::index_html;
+pub use post::post_html;
