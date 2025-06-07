@@ -12,6 +12,7 @@
 - **New Post**: Quickly create a new Markdown article.
 - **Compile**: Compile your Markdown posts into static HTML files you can serve anywhere.
 - **Image Management**: Store and copy images used in your posts.
+- **List Posts**: View metadata for your blog posts.
 
 ## 🚀 Installation
 
@@ -50,6 +51,13 @@ mejiro-cli image add ./path/to/image.png
 ```
 
 Use the `image` command to add and list images stored for your blog.
+
+```bash
+mejiro-cli list
+```
+
+List post metadata stored in the `posts` directory. Use `-a` to include
+unpublished drafts.
 
 
 ## About
