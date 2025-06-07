@@ -27,4 +27,8 @@ tar -xzf "$FILE"
 echo "Installing to /usr/local/bin/ ..."
 sudo mv mejiro-cli /usr/local/bin/
 
+echo "Cleaning up..."
+rm "$FILE"
+
 echo "✅ Installation complete! Run 'mejiro-cli --help' to see usage."
+
