@@ -73,7 +73,10 @@ impl MejiroConfig {
                 .expect("Failed to create images directory");
             println!("✅ Created images directory: {}", default_config.images_dir);
         } else {
-            println!("✅ Images directory already exists: {}", default_config.images_dir);
+            println!(
+                "✅ Images directory already exists: {}",
+                default_config.images_dir
+            );
         }
 
         // Write embedded default CSS to style.css
