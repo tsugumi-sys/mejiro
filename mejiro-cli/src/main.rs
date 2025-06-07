@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 use config::MejiroConfig;
 use mejiro_cli::compile::compile;
+use mejiro_cli::image::{add as image_add, list as image_list};
 use mejiro_cli::new::new;
 
 #[derive(Parser)]
@@ -32,6 +33,26 @@ enum Commands {
         #[arg(short, long, default_value = "./mejiro.yml")]
         config_file: String,
     },
+    /// Manage blog images
+    Image {
+        #[command(subcommand)]
+        command: ImageCommands,
+    },
+}
+
+#[derive(Subcommand)]
+enum ImageCommands {
+    /// Add an image to the blog's image directory
+    Add {
+        path: String,
+        #[arg(short, long, default_value = "./mejiro.yml")]
+        config_file: String,
+    },
+    /// List images stored for the blog
+    List {
+        #[arg(short, long, default_value = "./mejiro.yml")]
+        config_file: String,
+    },
 }
 
 fn main() {
@@ -54,5 +75,15 @@ fn main() {
         } => {
             compile(&input, &output, &config_file);
         }
+        Commands::Image { command } => match command {
+            ImageCommands::Add { path, config_file } => {
+                if let Err(e) = image_add(&config_file, &path) {
+                    eprintln!("❌ Failed to add image: {e}");
+                }
+            }
+            ImageCommands::List { config_file } => {
+                image_list(&config_file);
+            }
+        },
     }
 }

@@ -33,6 +33,25 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
         eprintln!("❌ icon file not found: {:?}", icon_path);
     }
 
+    // Copy images directory
+    let src_images = Path::new(&config.images_dir);
+    let dest_images = Path::new(output_dir).join("images");
+    if src_images.exists() {
+        for entry in WalkDir::new(src_images).into_iter().filter_map(Result::ok) {
+            if entry.file_type().is_file() {
+                let rel = entry.path().strip_prefix(src_images).unwrap();
+                let dest = dest_images.join(rel);
+                if let Some(parent) = dest.parent() {
+                    fs::create_dir_all(parent).unwrap();
+                }
+                fs::copy(entry.path(), &dest).unwrap();
+            }
+        }
+        println!("✅ Copied images to output directory");
+    } else {
+        eprintln!("❌ images directory not found: {:?}", src_images);
+    }
+
     // Build post pages.
     // NOTE: Post HTML files are created in the `posts` subdirectory, so we need to specify a relative path.
     let icon_path = format!("../{}", icon_file_name);

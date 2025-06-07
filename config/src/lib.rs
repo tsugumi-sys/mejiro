@@ -15,6 +15,12 @@ pub struct MejiroConfig {
     pub owner: BlogOwner,
     pub site_title: String,
     pub styles: BlogStyles,
+    #[serde(default = "default_images_dir")]
+    pub images_dir: String,
+}
+
+fn default_images_dir() -> String {
+    "images".to_string()
 }
 
 impl MejiroConfig {
@@ -42,6 +48,7 @@ impl MejiroConfig {
                 css_file: "style.css".to_string(),
                 icon: "icon.png".to_string(),
             },
+            images_dir: "images".to_string(),
         };
 
         let yaml_str =
@@ -54,10 +61,19 @@ impl MejiroConfig {
 
         // Create posts directory if needed
         if !Path::new(posts_dir).exists() {
-            fs::create_dir(posts_dir).expect("Failed to create posts directory");
+            fs::create_dir_all(posts_dir).expect("Failed to create posts directory");
             println!("✅ Created posts directory: {}", posts_dir);
         } else {
             println!("✅ Posts directory already exists: {}", posts_dir);
+        }
+
+        // Create images directory if needed
+        if !Path::new(&default_config.images_dir).exists() {
+            fs::create_dir_all(&default_config.images_dir)
+                .expect("Failed to create images directory");
+            println!("✅ Created images directory: {}", default_config.images_dir);
+        } else {
+            println!("✅ Images directory already exists: {}", default_config.images_dir);
         }
 
         // Write embedded default CSS to style.css
