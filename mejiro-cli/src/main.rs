@@ -1,4 +1,5 @@
 use clap::{Parser, Subcommand};
+use mejiro_cli::new;
 
 #[derive(Parser)]
 #[command(name = "mejiro-cli", version = env!("CARGO_PKG_VERSION"), about = "Blog management CLI")]
@@ -30,7 +31,7 @@ fn main() {
 
     match cli.command {
         Commands::New { output } => {
-            println!("Creating a new post in: {}", output);
+            new::create_new_post(&output);
         }
         Commands::Compile {
             input,

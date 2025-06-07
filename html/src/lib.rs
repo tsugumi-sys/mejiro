@@ -1,14 +1,10 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+use serde::{Deserialize, Serialize};
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+#[derive(Serialize, Deserialize, Debug)]
+pub struct BlogMeta {
+    pub title: String,
+    pub topics: Vec<String>,
+    pub published: bool,
+    pub published_at: String,
+    pub tldr: Option<String>,
 }
