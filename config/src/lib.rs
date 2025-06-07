@@ -1,14 +1,27 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
+mod owner;
+mod styles;
+
+use owner::BlogOwner;
+use serde::Deserialize;
+use styles::BlogStyles;
+
+#[derive(Deserialize)]
+pub struct MejiroConfig {
+    pub owner: BlogOwner,
+    pub site_title: String,
+    pub styles: BlogStyles,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+impl MejiroConfig {
+    /// Loads the blog configuration from a YAML file
+    pub fn load_config(config_path: &str) -> Self {
+        let contents =
+            std::fs::read_to_string(config_path).expect("Could not read the config file");
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
+        // Parse the YAML into a Config struct
+        let config: MejiroConfig =
+            serde_yaml::from_str(&contents).expect("Failed to parse YAML file into Config");
+
+        config
     }
 }
