@@ -13,6 +13,23 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Cache typos binary
+      uses: actions/cache@v4
+      with:
+        path: /usr/local/bin/typos
+        key: typos-${{ runner.os }}-v1.33.1
+
+    - name: Install typos if not cached
+      run: |
+        if ! [ -f /usr/local/bin/typos ]; then
+          curl -LsSf https://github.com/crate-ci/typos/releases/download/v1.21.0/typos-v1.21.0-x86_64-unknown-linux-gnu.tar.gz \
+            | tar -xz -C /tmp
+          sudo mv /tmp/typos /usr/local/bin/typos
+        fi
+
+    - name: Run typos
+      run: typos
+
     - name: Cache cargo registry and target
       uses: actions/cache@v4
       with:
