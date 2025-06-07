@@ -2,6 +2,7 @@ use clap::{Parser, Subcommand};
 use config::MejiroConfig;
 use mejiro_cli::compile::compile;
 use mejiro_cli::image::{add as image_add, list as image_list};
+use mejiro_cli::list::list as post_list;
 use mejiro_cli::new::new;
 
 #[derive(Parser)]
@@ -32,6 +33,14 @@ enum Commands {
         output: String,
         #[arg(short, long, default_value = "./mejiro.yml")]
         config_file: String,
+    },
+    /// List post metadata
+    List {
+        #[arg(short, long, default_value = "./posts")]
+        input: String,
+        /// Show all posts including unpublished ones
+        #[arg(short, long, default_value_t = false)]
+        all: bool,
     },
     /// Manage blog images
     Image {
@@ -74,6 +83,9 @@ fn main() {
             config_file,
         } => {
             compile(&input, &output, &config_file);
+        }
+        Commands::List { input, all } => {
+            post_list(&input, all);
         }
         Commands::Image { command } => match command {
             ImageCommands::Add { path, config_file } => {
