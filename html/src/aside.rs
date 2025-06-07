@@ -1,9 +1,14 @@
-pub fn aside_html(owner_name: &str, owner_github_link: &str, owner_linkedin_link: &str) -> String {
+pub fn aside_html(
+    owner_name: &str,
+    owner_github_link: &str,
+    owner_linkedin_link: &str,
+    icon_path: &str,
+) -> String {
     format!(
         r#"
 <aside>
   <div class="logo">
-    <img src="/icon.png" alt="Logo">
+    <img src="{}" alt="Logo">
     <span>{}</span>
   </div>
   <nav class="links">
@@ -13,6 +18,6 @@ pub fn aside_html(owner_name: &str, owner_github_link: &str, owner_linkedin_link
   </nav>
 </aside>
 "#,
-        owner_name, owner_github_link, owner_linkedin_link
+        icon_path, owner_name, owner_github_link, owner_linkedin_link
     )
 }

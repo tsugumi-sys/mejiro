@@ -1,5 +1,6 @@
 use clap::{Parser, Subcommand};
-use mejiro_cli::new;
+use mejiro_cli::compile::compile;
+use mejiro_cli::new::new;
 
 #[derive(Parser)]
 #[command(name = "mejiro-cli", version = env!("CARGO_PKG_VERSION"), about = "Blog management CLI")]
@@ -31,16 +32,14 @@ fn main() {
 
     match cli.command {
         Commands::New { output } => {
-            new::create_new_post(&output);
+            new(&output);
         }
         Commands::Compile {
             input,
             output,
             config_file,
         } => {
-            println!("Building site from input: {}", input);
-            println!("Output will be in: {}", output);
-            println!("Using config file: {}", config_file);
+            compile(&input, &output, &config_file);
         }
     }
 }

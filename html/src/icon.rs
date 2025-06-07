@@ -14,7 +14,7 @@ pub fn icon_html(icon_path: &str) -> String {
         .unwrap_or("image/png");
 
     format!(
-        r#"<link rel="icon" href="/{}" type="{}">"#,
+        r#"<link rel="icon" href="{}" type="{}">"#,
         icon_path, icon_type
     )
 }

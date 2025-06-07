@@ -4,9 +4,9 @@ use std::fs;
 use std::io::Write;
 use std::path::Path;
 
-use html::BlogMeta;
+use html::metadata::BlogMeta;
 
-pub fn create_new_post(output_dir: &str) {
+pub fn new(output_dir: &str) {
     let output_path = Path::new(output_dir);
 
     // Check and create the output directory if it doesn't exist

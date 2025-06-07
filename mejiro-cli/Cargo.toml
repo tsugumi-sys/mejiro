@@ -10,3 +10,4 @@ config = { path = "../config" }
 html = { path = "../html" }
 rand = "0.9.1"
 serde_yaml = "0.9.34"
+walkdir = "2.5.0"
