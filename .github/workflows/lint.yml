@@ -30,7 +30,12 @@ jobs:
         rustup component add rustfmt
 
     - name: Install typos
-      run: cargo install typos-cli 
+      run: |
+        if ! command -v typos &> /dev/null; then
+          cargo install typos-cli
+        else
+          echo "typos is already installed."
+        fi
 
     - name: Run typos
       run: typos
