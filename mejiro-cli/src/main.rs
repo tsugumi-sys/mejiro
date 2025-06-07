@@ -2,8 +2,8 @@ use clap::{Parser, Subcommand};
 use config::MejiroConfig;
 use mejiro_cli::compile::compile;
 use mejiro_cli::image::{add as image_add, list as image_list};
-use mejiro_cli::new::new;
 use mejiro_cli::list::list as post_list;
+use mejiro_cli::new::new;
 
 #[derive(Parser)]
 #[command(name = "mejiro-cli", version = env!("CARGO_PKG_VERSION"), about = "Blog management CLI")]

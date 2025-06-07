@@ -9,10 +9,9 @@
 
 ## ✨ Features
 
-- **New Post**: Quickly create a new Markdown article.
+- **Posts Management**: Quickly create a new Markdown article and View metadata for your blog posts.
 - **Compile**: Compile your Markdown posts into static HTML files you can serve anywhere.
 - **Image Management**: Store and copy images used in your posts.
-- **List Posts**: View metadata for your blog posts.
 
 ## 🚀 Installation
 

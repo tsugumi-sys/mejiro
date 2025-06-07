@@ -5,22 +5,8 @@ use walkdir::WalkDir;
 
 fn parse_meta(path: &Path) -> Option<BlogMeta> {
     let content = fs::read_to_string(path).ok()?;
-    let mut lines = content.lines();
-    if let Some(first_line) = lines.next() {
-        if first_line.trim() == "---" {
-            let mut meta_lines = Vec::new();
-            for line in &mut lines {
-                if line.trim() == "---" {
-                    break;
-                }
-                meta_lines.push(line);
-            }
-            let meta_str = meta_lines.join("\n");
-            let meta: BlogMeta = serde_yaml::from_str(&meta_str).ok()?;
-            return Some(meta);
-        }
-    }
-    None
+    let (meta, _) = BlogMeta::from_markdown_str(&content)?;
+    Some(meta)
 }
 
 pub fn list(input_dir: &str, all: bool) {
@@ -45,4 +31,3 @@ pub fn list(input_dir: &str, all: bool) {
         print!("{}", yaml);
     }
 }
-
