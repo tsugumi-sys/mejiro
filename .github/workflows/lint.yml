@@ -24,12 +24,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-cargo-
 
-    - name: Set up Rust toolchain
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
-        components: rustfmt, clippy
+    - name: Install rust toolchains
+      run: |
+        rustup component add clippy
+        rustup component add rustfmt
 
     - name: Check code format
       run: cargo fmt --all -- --check
