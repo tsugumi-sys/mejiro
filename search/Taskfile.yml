@@ -2,4 +2,4 @@ version: '3'
 
 tasks:
   compile:
-    cmd: wasm-pack build --target web --out-dir ../mejiro-cli/public/pkg
+    cmd: wasm-pack build --target web --out-dir ../mejiro-cli/assets/pkg
