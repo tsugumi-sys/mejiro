@@ -6,8 +6,18 @@ use std::fs;
 use std::path::Path;
 use walkdir::WalkDir;
 
+fn mejiro_search_js_script() -> &'static str {
+    include_str!("../assets/mejiro_search.js")
+}
+
 pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     fs::create_dir_all(output_dir).unwrap();
+
+    let search_js_content = mejiro_search_js_script();
+    let search_js_path = Path::new(output_dir).join("mejiro_search.js");
+    fs::write(&search_js_path, search_js_content)
+        .unwrap_or_else(|e| panic!("❌ Failed to write mejiro_search.js: {:?}", e));
+    println!("✅ Copied mejiro_search.js to output directory");
 
     let config = MejiroConfig::load_config(config_path);
 
