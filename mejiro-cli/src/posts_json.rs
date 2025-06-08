@@ -1,5 +1,5 @@
 use html::metadata::Post;
-use search::base_search::{SearchPostData, SearchPostMetaCompile};
+use mejiro_search::base_search::{SearchPostData, SearchPostMetaCompile};
 use serde_json;
 use std::fs;
 use std::path::Path;
