@@ -2,6 +2,7 @@
 members = [
     "config",
     "html",
-    "mejiro-cli"
+    "mejiro-cli",
+    "search"
 ]
 
