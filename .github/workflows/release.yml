@@ -37,7 +37,7 @@ jobs:
         working-directory: search
         run: |
           wasm-pack build --target web --out-dir ./pkg
-          cp ./pkg/mejiro_search.js ../mejiro-cli/assets/
+          cp -r ./pkg/* ../mejiro-cli/assets/mejiro-search-pkg/
 
       - name: Build binary
         working-directory: mejiro-cli

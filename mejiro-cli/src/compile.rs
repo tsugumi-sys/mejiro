@@ -6,18 +6,36 @@ use std::fs;
 use std::path::Path;
 use walkdir::WalkDir;
 
-fn mejiro_search_js_script() -> &'static str {
-    include_str!("../assets/mejiro_search.js")
+fn mejiro_search_js() -> &'static str {
+    include_str!("../assets/mejiro-search-pkg/mejiro_search.js")
+}
+
+fn mejiro_search_bg_wasm() -> &'static [u8] {
+    include_bytes!("../assets/mejiro-search-pkg/mejiro_search_bg.wasm")
 }
 
 pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     fs::create_dir_all(output_dir).unwrap();
 
-    let search_js_content = mejiro_search_js_script();
-    let search_js_path = Path::new(output_dir).join("mejiro_search.js");
-    fs::write(&search_js_path, search_js_content)
-        .unwrap_or_else(|e| panic!("❌ Failed to write mejiro_search.js: {:?}", e));
-    println!("✅ Copied mejiro_search.js to output directory");
+    // Create the mejiro-search-pkg directory in the output dir
+    let pkg_dir = Path::new(output_dir).join("mejiro-search-pkg");
+    fs::create_dir_all(&pkg_dir).unwrap_or_else(|e| {
+        panic!("❌ Failed to create mejiro-search-pkg directory: {:?}", e);
+    });
+
+    // Write mejiro_search.js
+    let dest_js = pkg_dir.join("mejiro_search.js");
+    fs::write(&dest_js, mejiro_search_js()).unwrap_or_else(|e| {
+        panic!("❌ Failed to write mejiro_search.js: {:?}", e);
+    });
+
+    // Write mejiro_search_bg.wasm
+    let dest_wasm = pkg_dir.join("mejiro_search_bg.wasm");
+    fs::write(&dest_wasm, mejiro_search_bg_wasm()).unwrap_or_else(|e| {
+        panic!("❌ Failed to write mejiro_search_bg.wasm: {:?}", e);
+    });
+
+    println!("✅ Wrote mejiro-search-pkg directory and files");
 
     let config = MejiroConfig::load_config(config_path);
 
