@@ -13,6 +13,8 @@
 - **Compile**: Compile your Markdown posts into static HTML files you can serve anywhere.
 - **Image Management**: Store and copy images used in your posts.
 
+Example: https://blog.tsugumisys.com/
+
 ## 🚀 Installation
 
 ```bash
