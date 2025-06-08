@@ -16,7 +16,7 @@ pub fn index_html(posts: &[Post], aside_html: &str, footer_html: &str, icon_html
   <div class="container">
     {}
     <main>
-      <h1>Recent Posts</h1>
+      <h1>Posts</h1>
       <ul>
 "#,
         icon_html, aside_html
