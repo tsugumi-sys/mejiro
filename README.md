@@ -34,7 +34,7 @@ This will create:
 
 
 ```bash
-mejiro-cli mew
+mejiro-cli new
 ```
 
 This will Creates a new article in Markdown format.
