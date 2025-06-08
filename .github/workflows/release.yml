@@ -29,6 +29,11 @@ jobs:
         with:
           toolchain: stable
           target: ${{ matrix.target }}
+      - name: Build WASM for search
+        working-directory: search
+        run: |
+          wasm-pack build --target web --out-dir ./pkg
+          cp ./pkg/mejiro_search.js ../mejiro-cli/assets/
 
       - name: Build binary
         working-directory: mejiro-cli

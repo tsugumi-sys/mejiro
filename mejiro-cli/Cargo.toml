@@ -15,7 +15,7 @@ chrono = "0.4.41"
 clap = { version = "4.5.39", features = ["derive"] }
 config = { path = "../config" }
 html = { path = "../html" }
-search = { path = "../search" }
+mejiro-search = { path = "../search" }
 rand = "0.9.1"
 serde_yaml = "0.9.34"
 walkdir = "2.5.0"

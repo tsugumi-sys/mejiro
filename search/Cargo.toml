@@ -1,5 +1,5 @@
 [package]
-name = "search"
+name = "mejiro-search"
 version = "0.1.0"
 description = "A WASM search for blog posts"
 license = "MIT OR Apache-2.0"
