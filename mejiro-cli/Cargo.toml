@@ -1,6 +1,6 @@
 [package]
 name = "mejiro-cli"
-version = "0.1.12"
+version = "0.1.13"
 edition = "2024"
 description = "A CLI tool for Mejiro"
 license = "MIT OR Apache-2.0"
@@ -20,3 +20,4 @@ rand = "0.9.1"
 serde_yaml = "0.9.34"
 walkdir = "2.5.0"
 serde_json = "1.0.140"
+sha2 = "0.10.9"

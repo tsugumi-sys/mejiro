@@ -1,6 +1,12 @@
 use crate::metadata::Post;
 
-pub fn index_html(posts: &[Post], aside_html: &str, footer_html: &str, icon_html: &str) -> String {
+pub fn index_html(
+    posts: &[Post],
+    aside_html: &str,
+    footer_html: &str,
+    icon_html: &str,
+    csv_file_path: &str,
+) -> String {
     // Start the page with the container, aside_html, and main
     let mut index_html = format!(
         r#"<!DOCTYPE html>
@@ -9,7 +15,7 @@ pub fn index_html(posts: &[Post], aside_html: &str, footer_html: &str, icon_html
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Akira Noda Blog</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="{}">
   {}
 </head>
 <body>
@@ -27,7 +33,7 @@ pub fn index_html(posts: &[Post], aside_html: &str, footer_html: &str, icon_html
       <h1>Posts</h1>
       <ul id="post-list">
 "#,
-        icon_html, aside_html
+        csv_file_path, icon_html, aside_html
     );
 
     // Loop through the posts and build the list
