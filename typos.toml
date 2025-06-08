@@ -1,0 +1,5 @@
+[files]
+extend-exclude = [
+  "mejiro-cli/assets/mejiro_search.js",
+  "**/mejiro_search.js"
+]
