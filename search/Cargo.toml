@@ -1,5 +1,5 @@
 [package]
-name = "mejiro-search"
+name = "search"
 version = "0.1.0"
 description = "A WASM search for blog posts"
 license = "MIT OR Apache-2.0"
@@ -7,7 +7,7 @@ repository = "https://github.com/tsugumi-sys/mejiro"
 edition = "2024"
 
 [lib]
-crate-type = ["cdylib"]
+crate-type = ["cdylib", "rlib"]
 
 
 [dependencies]

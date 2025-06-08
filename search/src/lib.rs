@@ -1,8 +1,10 @@
 use serde_wasm_bindgen::{from_value, to_value};
 use wasm_bindgen::prelude::*;
+
 pub mod base_search;
-use crate::base_search::{SearchEngine, SearchPostData};
 pub mod word_search;
+
+use crate::base_search::{SearchEngine, SearchPostData};
 use crate::word_search::WordSearchEngine;
 
 #[wasm_bindgen]
