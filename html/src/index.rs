@@ -18,7 +18,7 @@ pub fn index_html(posts: &[Post], aside_html: &str, footer_html: &str, icon_html
     <main>
       <div class="search-bar-wrapper">
         <i id="search-trigger" class="fas fa-search"></i>
-        <span id="search-wrapper" class="hidden">
+        <span id="search-wrapper">
           <input type="text" id="search-input" placeholder="Search..." />
           <i id="search-cleaner" class="fa fa-times"></i>
         </span>
