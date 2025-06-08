@@ -76,7 +76,7 @@ pub fn index_html(posts: &[Post], aside_html: &str, footer_html: &str, icon_html
     index_html.push_str(
         r#"
   <script type="module">
-    import init, { search } from './mejiro_search.js';
+    import init, { search } from './mejiro-search-pkg/mejiro_search.js';
 
     let postsData = [];
 
