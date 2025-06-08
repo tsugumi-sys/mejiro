@@ -29,6 +29,10 @@ jobs:
         with:
           toolchain: stable
           target: ${{ matrix.target }}
+
+      - name: Install wasm-pack
+        run: cargo install wasm-pack
+
       - name: Build WASM for search
         working-directory: search
         run: |
