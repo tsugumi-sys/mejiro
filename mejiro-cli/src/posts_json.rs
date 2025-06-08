@@ -15,6 +15,7 @@ pub fn generate_posts_json(posts: &[Post], output_dir: &str) {
             tags: post.meta.topics.clone(),
             tldr: post.meta.tldr.clone(),
             path: format!("posts/{}.html", post.name),
+            published_at: post.meta.published_at.clone(),
         };
         let fields = vec![
             post.meta.title.clone(),
