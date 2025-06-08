@@ -75,6 +75,7 @@ impl BlogMeta {
 pub struct Post {
     pub meta: BlogMeta,
     pub html_body: String,
+    pub markdown_body: String,
     pub name: String, // file name without extension
 }
 
@@ -100,6 +101,7 @@ impl Post {
         Ok(Some(Post {
             meta,
             html_body: html_output,
+            markdown_body: content,
             name: path.file_stem().unwrap().to_string_lossy().to_string(),
         }))
     }

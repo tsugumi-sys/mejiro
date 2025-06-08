@@ -1,3 +1,4 @@
+use crate::posts_json::generate_posts_json;
 use config::MejiroConfig;
 use html;
 use html::metadata::Post;
@@ -107,4 +108,6 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     let index_path = Path::new(output_dir).join("index.html");
     fs::write(index_path, index_html_content).unwrap();
     println!("✅ Generated index.html with {} posts", posts.len());
+
+    generate_posts_json(&posts, output_dir);
 }
