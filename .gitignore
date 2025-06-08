@@ -7,5 +7,7 @@ public/
 style.css
 !mejiro-cli/assets/style.css
 !mejiro-cli/assets/mejiro-search-pkg/
+!mejiro-cli/assets/mejiro-search-pkg/**
 mejiro.yml
 images/
+
