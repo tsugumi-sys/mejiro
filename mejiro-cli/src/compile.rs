@@ -81,6 +81,7 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
             }
         }
     }
+    posts.sort_by(|a, b| b.meta.published_at.cmp(&a.meta.published_at));
 
     // Build each post page
     for post in &posts {
