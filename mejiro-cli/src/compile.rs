@@ -2,9 +2,32 @@ use crate::posts_json::generate_posts_json;
 use config::MejiroConfig;
 use html;
 use html::metadata::Post;
+use sha2::{Digest, Sha256};
 use std::fs;
 use std::path::Path;
 use walkdir::WalkDir;
+
+fn css_filename_with_hash(css_path: &Path) -> Option<String> {
+    if css_path.exists() {
+        let bytes = fs::read(css_path).ok()?;
+        let mut hasher = Sha256::new();
+        hasher.update(&bytes);
+        let hash = hasher.finalize();
+        let hash_hex = format!("{:x}", hash);
+
+        let css_filename = format!("style.{}.css", &hash_hex[..8]);
+        Some(css_filename)
+    } else {
+        eprintln!("❌ CSS file not found: {:?}", css_path);
+        None
+    }
+}
+
+fn copy_css_file(css_path: &Path, dest_path: &Path) -> std::io::Result<()> {
+    fs::copy(css_path, dest_path)?;
+    println!("✅ Copied CSS file to {}", dest_path.display());
+    Ok(())
+}
 
 fn mejiro_search_js() -> &'static str {
     include_str!("../assets/mejiro-search-pkg/mejiro_search.js")
@@ -40,13 +63,14 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     let config = MejiroConfig::load_config(config_path);
 
     let css_path = Path::new(&config.styles.css_file);
-    if css_path.exists() {
-        let dest_path = Path::new(output_dir).join(css_path.file_name().unwrap());
-        fs::copy(css_path, dest_path).unwrap();
-        println!("✅ Copied CSS file to output directory");
-    } else {
-        eprintln!("❌ CSS file not found: {:?}", css_path);
-    }
+
+    // 🟩 Get hashed CSS filename
+    let css_filename = css_filename_with_hash(css_path)
+        .unwrap_or_else(|| panic!("❌ Could not generate CSS filename with hash"));
+
+    // 🟩 Copy CSS file to output directory
+    let dest_css_path = Path::new(output_dir).join(&css_filename);
+    copy_css_file(css_path, &dest_css_path).unwrap();
 
     let icon_path = Path::new(&config.styles.icon);
     let icon_file_name: &str = icon_path
@@ -118,7 +142,7 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
             .join(format!("{}.html", post.name));
         fs::create_dir_all(output_path.parent().unwrap()).unwrap();
 
-        let css_relative_path = format!("../{}", css_path.file_name().unwrap().to_string_lossy());
+        let css_relative_path = format!("../{}", &css_filename);
         let post_html_content = html::post_html(post, &aside, &footer, &icon, &css_relative_path);
         fs::write(output_path, post_html_content).unwrap();
         println!("✅ Built post: {}.html", post.name);
@@ -132,7 +156,7 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
         icon_file_name,
     );
     let icon = html::icon_html(icon_file_name);
-    let index_html_content = html::index_html(&posts, &aside, &footer, &icon);
+    let index_html_content = html::index_html(&posts, &aside, &footer, &icon, &css_filename);
 
     let index_path = Path::new(output_dir).join("index.html");
     fs::write(index_path, index_html_content).unwrap();
