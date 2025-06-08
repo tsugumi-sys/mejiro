@@ -18,4 +18,5 @@ pub struct SearchPostMetaCompile {
     pub tags: Vec<String>,
     pub tldr: Option<String>,
     pub path: String,
+    pub published_at: String,
 }
