@@ -156,7 +156,14 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
         icon_file_name,
     );
     let icon = html::icon_html(icon_file_name);
-    let index_html_content = html::index_html(&posts, &aside, &footer, &icon, &css_filename);
+    let index_html_content = html::index_html(
+        &config.owner.name,
+        &posts,
+        &aside,
+        &footer,
+        &icon,
+        &css_filename,
+    );
 
     let index_path = Path::new(output_dir).join("index.html");
     fs::write(index_path, index_html_content).unwrap();
