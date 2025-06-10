@@ -59,10 +59,7 @@ mod tests {
 
     #[test]
     fn search_matches_complete_words() {
-        let posts = vec![
-            make_post(1, &["rust lang"]),
-            make_post(2, &["crust test"]),
-        ];
+        let posts = vec![make_post(1, &["rust lang"]), make_post(2, &["crust test"])];
 
         let engine = WordSearchEngine::new(posts);
         let results = engine.search("rust");
