@@ -1,6 +1,7 @@
 use crate::metadata::Post;
 
 pub fn index_html(
+    owner_name: &str,
     posts: &[Post],
     aside_html: &str,
     footer_html: &str,
@@ -14,7 +15,7 @@ pub fn index_html(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Akira Noda Blog</title>
+  <title>{} Blog</title>
   <link rel="stylesheet" href="{}">
   {}
 </head>
@@ -33,7 +34,7 @@ pub fn index_html(
       <h1>Posts</h1>
       <ul id="post-list">
 "#,
-        csv_file_path, icon_html, aside_html
+        owner_name, csv_file_path, icon_html, aside_html
     );
 
     // Loop through the posts and build the list
