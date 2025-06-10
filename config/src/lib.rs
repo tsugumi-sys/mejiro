@@ -40,7 +40,6 @@ impl MejiroConfig {
         include_str!("../../mejiro-cli/assets/style.css")
     }
 
-    /// Initialize default configuration, posts directory, and assets
     pub fn initialize_config(config_path: &str, posts_dir: &str) {
         let default_config = MejiroConfig {
             owner: BlogOwner {
@@ -56,50 +55,69 @@ impl MejiroConfig {
             images_dir: "images".to_string(),
         };
 
-        let yaml_str =
-            serde_yaml::to_string(&default_config).expect("Failed to serialize default config");
+        Self::write_config_file(config_path, &default_config);
+        Self::create_dir_if_not_exists(posts_dir);
+        Self::create_dir_if_not_exists(&default_config.images_dir);
+        Self::write_default_css("style.css");
+        Self::write_default_icon("icon.png");
 
-        let mut file = fs::File::create(config_path).expect("Failed to create configuration file");
-        file.write_all(yaml_str.as_bytes())
-            .expect("Failed to write default config");
-        println!("✅ Created default configuration: {}", config_path);
+        // Tree view for user-friendly output
+        let entries = vec![
+            ("mejiro.yml", "Your blog configuration"),
+            ("style.css", "Default blog styling (customize as needed)"),
+            ("icon.png", "Default icon (replace with your own icon)"),
+            ("posts/", "Your blog posts directory"),
+            ("images/", "Directory for images used in your blog"),
+        ];
 
-        // Create posts directory if needed
-        if !Path::new(posts_dir).exists() {
-            fs::create_dir_all(posts_dir).expect("Failed to create posts directory");
-            println!("✅ Created posts directory: {}", posts_dir);
-        } else {
-            println!("✅ Posts directory already exists: {}", posts_dir);
+        // Calculate the longest entry name for alignment
+        let longest_len = entries
+            .iter()
+            .map(|(name, _)| name.len())
+            .max()
+            .unwrap_or(0);
+
+        println!("\n🐦 Hello Mejiro! Let’s get your blog started!");
+        println!("\n🎉 Your Mejiro Blog structure:");
+        for (name, desc) in entries {
+            let padding = " ".repeat(longest_len - name.len() + 1);
+            println!("├── {}{}# {}", name, padding, desc);
         }
+    }
 
-        // Create images directory if needed
-        if !Path::new(&default_config.images_dir).exists() {
-            fs::create_dir_all(&default_config.images_dir)
-                .expect("Failed to create images directory");
-            println!("✅ Created images directory: {}", default_config.images_dir);
-        } else {
-            println!(
-                "✅ Images directory already exists: {}",
-                default_config.images_dir
-            );
+    fn write_config_file(config_path: &str, config: &MejiroConfig) {
+        if !Path::new(config_path).exists() {
+            let yaml_str =
+                serde_yaml::to_string(config).expect("Failed to serialize default config");
+
+            let mut file =
+                fs::File::create(config_path).expect("Failed to create configuration file");
+            file.write_all(yaml_str.as_bytes())
+                .expect("Failed to write default config");
         }
+    }
 
-        // Write embedded default CSS to style.css
-        let mut style_file = fs::File::create("style.css").expect("Failed to create style.css");
+    fn create_dir_if_not_exists(dir: &str) {
+        if !Path::new(dir).exists() {
+            fs::create_dir_all(dir).expect("Failed to create directory");
+        }
+    }
+
+    fn write_default_css(css_path: &str) {
+        let mut style_file = fs::File::create(css_path).expect("Failed to create CSS file");
         style_file
             .write_all(Self::default_css().as_bytes())
-            .expect("Failed to write style.css");
-        println!("✅ Created style.css from embedded asset");
+            .expect("Failed to write CSS file");
+    }
 
-        // Create a tiny icon.png (1x1 transparent PNG)
-        let icon_data = BASE64_STANDARD.decode(
-            "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=",
-        )
-        .unwrap();
-        let mut icon_file = fs::File::create("icon.png").expect("Failed to create icon.png");
+    fn write_default_icon(icon_path: &str) {
+        let icon_data = BASE64_STANDARD
+            .decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=")
+            .unwrap();
+
+        let mut icon_file = fs::File::create(icon_path).expect("Failed to create icon file");
         icon_file
             .write_all(&icon_data)
-            .expect("Failed to write icon.png");
-        println!("✅ Created default icon.png (1x1 transparent PNG)");
+            .expect("Failed to write icon file");
     }
 }
