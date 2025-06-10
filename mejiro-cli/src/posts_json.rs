@@ -34,5 +34,4 @@ pub fn generate_posts_json(posts: &[Post], output_dir: &str) {
     let posts_json_path = Path::new(output_dir).join("posts.json");
     let json_data = serde_json::to_string_pretty(&posts_data).unwrap();
     fs::write(posts_json_path, json_data).unwrap();
-    println!("✅ Saved posts.json with {} entries", posts_data.len());
 }
