@@ -89,7 +89,7 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
 
     let post_paths: Vec<String> = posts
         .iter()
-        .map(|post| format!("public/posts/{}.html", post.name))
+        .map(|post| format!("{}.html", post.name))
         .collect();
 
     println!("\nOutput directory structure:");
