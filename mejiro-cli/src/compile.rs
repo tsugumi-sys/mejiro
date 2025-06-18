@@ -81,6 +81,7 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
         &posts,
         &config,
         &css_filename,
+        icon_file_name,
         &footer,
     );
 
@@ -183,16 +184,16 @@ fn build_index_page(
     posts: &[Post],
     config: &MejiroConfig,
     css_filename: &str,
+    icon_filename: &str,
     footer: &str,
 ) {
-    let icon_file = &config.styles.icon;
     let aside = html::aside_html(
         &config.owner.name,
         &config.owner.github_link,
         &config.owner.linkedin_link,
-        icon_file,
+        icon_filename,
     );
-    let icon = html::icon_html(icon_file);
+    let icon = html::icon_html(icon_filename);
 
     let index_html = html::index_html(
         &config.owner.name,
