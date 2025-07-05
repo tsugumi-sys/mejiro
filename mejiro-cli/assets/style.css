@@ -1,9 +1,14 @@
 /* Base styles */
 body {
-  font-family: "Inter", sans-serif;
+  font-family: "Georgia", sans-serif;
   background-color: #0f172a;
   color: #e2e8f0;
   margin: 0;
+}
+
+
+main article p {
+  margin-bottom: 1.8em;
 }
 
 /* Layout */
