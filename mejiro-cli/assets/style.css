@@ -1,23 +1,55 @@
-/* Base styles */
+/* ────────────────────────────────
+   Root Variables
+──────────────────────────────── */
+:root {
+  --font-primary: "Georgia", serif;
+  --font-mono: "Source Code Pro", monospace;
+
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.75;
+
+  --text-primary: #d1d5db;
+  --text-secondary: #94a3b8;
+  --link-color: #38bdf8;
+  --link-hover: #7dd3fc;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-24: 6rem;
+
+  --content-width: 65ch;
+}
+
+/* ────────────────────────────────
+   Base Styles
+──────────────────────────────── */
 body {
-  font-family: "Georgia", sans-serif;
+  font-family: var(--font-primary);
   background-color: #0f172a;
-  color: #e2e8f0;
+  color: var(--text-primary);
   margin: 0;
+  font-size: var(--text-lg);
+  line-height: var(--line-height-relaxed);
 }
 
-
-main article p {
-  margin-bottom: 1.8em;
-}
-
-/* Layout */
+/* ────────────────────────────────
+   Layout
+──────────────────────────────── */
 .container {
   display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar */
+/* ────────────────────────────────
+   Sidebar
+──────────────────────────────── */
 aside {
   width: 220px;
   background-color: #0f172a;
@@ -63,11 +95,13 @@ aside .links a {
 }
 
 aside .links a:hover {
-  color: #38bdf8;
+  color: var(--link-color);
   text-decoration: underline;
 }
 
-/* Main content */
+/* ────────────────────────────────
+   Main Content
+──────────────────────────────── */
 main {
   flex: 1;
   margin-left: 300px;
@@ -76,11 +110,67 @@ main {
 }
 
 main h1 {
-  font-size: 1.75rem;
-  margin-bottom: 2rem;
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-8);
 }
 
-/* Post list & search results */
+/* ────────────────────────────────
+   Article Styling
+──────────────────────────────── */
+article.post {
+  font-family: var(--font-primary);
+  font-size: var(--text-lg);
+  line-height: var(--line-height-relaxed);
+  color: var(--text-primary);
+  max-width: var(--content-width);
+  margin: 0 auto var(--space-24);
+  padding: 0 var(--space-4);
+}
+
+article.post p {
+  margin-bottom: var(--space-6);
+  color: var(--text-secondary);
+  font-size: var(--text-lg);
+  line-height: var(--line-height-relaxed);
+}
+
+article.post a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+article.post a:hover {
+  color: var(--link-hover);
+  text-decoration-thickness: 2px;
+}
+
+/* ────────────────────────────────
+   Code Blocks
+──────────────────────────────── */
+main article pre {
+  background-color: #1e293b;
+  color: #f1f5f9;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: var(--space-6);
+}
+
+main article code {
+  font-family: var(--font-mono);
+  white-space: pre;
+}
+
+main article pre code {
+  display: block;
+}
+
+/* ────────────────────────────────
+   Post List & Search Results
+──────────────────────────────── */
 #post-list,
 #search-results {
   list-style: none;
@@ -90,7 +180,7 @@ main h1 {
 
 #post-list li,
 #search-results li {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-8);
 }
 
 #post-list li a,
@@ -101,15 +191,11 @@ main h1 {
 
 #post-list li a:hover,
 #search-results li a:hover {
-  color: #38bdf8;
+  color: var(--link-color);
 }
 
 #post-list li .summary,
-#search-results li .summary {
-  font-size: 0.8rem;
-  color: #94a3b8;
-}
-
+#search-results li .summary,
 #post-list li .topics,
 #search-results li .topics {
   font-size: 0.8rem;
@@ -122,30 +208,12 @@ main h1 {
   color: #64748b;
 }
 
-main article pre {
-  background-color: #1e293b;
-  color: #f1f5f9;
-  padding: 0.75rem 1rem;
-  border-radius: 4px;
-  overflow-x: auto;
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-}
-
-main article code {
-  font-family: "Source Code Pro", monospace;
-  white-space: pre;
-}
-
-main article pre code {
-  display: block;
-}
-
-/* Search bar */
+/* ────────────────────────────────
+   Search Bar
+──────────────────────────────── */
 .search-bar-wrapper {
   position: relative;
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-8);
 }
 
 #search-wrapper {
@@ -181,15 +249,12 @@ main article pre code {
 
 #search-trigger:hover,
 #search-cleaner:hover {
-  color: #38bdf8;
+  color: var(--link-color);
 }
 
-/* Hidden class for dynamic toggling */
-.hidden {
-  display: none;
-}
-
-/* Footer */
+/* ────────────────────────────────
+   Footer
+──────────────────────────────── */
 footer {
   text-align: center;
   padding: 2rem 1rem;
@@ -199,7 +264,9 @@ footer {
   border-top: 1px solid #1e293b;
 }
 
-/* Responsive layout adjustments */
+/* ────────────────────────────────
+   Responsive Design
+──────────────────────────────── */
 @media (max-width: 600px) {
   .container {
     flex-direction: column;
@@ -222,6 +289,13 @@ footer {
   footer {
     margin-left: 0;
   }
+}
+
+/* ────────────────────────────────
+   Utility Classes
+──────────────────────────────── */
+.hidden {
+  display: none;
 }
 
 
