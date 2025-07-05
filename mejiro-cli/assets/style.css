@@ -6,6 +6,21 @@ body {
   margin: 0;
 }
 
+main article {
+  font-family: "Georgia", serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0;
+  text-align: left;
+  color: #111111;
+  background-color: #ffffff;
+}
+
+main article p {
+  margin-bottom: 1.8em;
+}
+
 /* Layout */
 .container {
   display: flex;
