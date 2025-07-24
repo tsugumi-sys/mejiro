@@ -5,4 +5,4 @@ members = [
     "mejiro-cli",
     "search"
 ]
-
+resolver = "3"
