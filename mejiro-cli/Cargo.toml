@@ -1,11 +1,11 @@
 [package]
 name = "mejiro-cli"
-version = "0.1.18"
+version = "0.1.19"
 edition = "2024"
 description = "A CLI tool for Mejiro"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/tsugumi-sys/mejiro" 
-readme = "README.md" 
+repository = "https://github.com/tsugumi-sys/mejiro"
+readme = "README.md"
 keywords = ["cli", "mejiro", "tool", "blog"]
 categories = ["command-line-utilities"]
 
