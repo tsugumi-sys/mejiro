@@ -26,8 +26,8 @@ pub fn list(input_dir: &str, all: bool) {
             continue;
         }
         println!("---");
-        println!("name: {}", name);
+        println!("name: {name}");
         let yaml = serde_yaml::to_string(&meta).unwrap_or_default();
-        print!("{}", yaml);
+        print!("{yaml}");
     }
 }

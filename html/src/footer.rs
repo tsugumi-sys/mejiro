@@ -5,9 +5,8 @@ pub fn footer_html(site_title: &str) -> String {
     format!(
         r#"
 <footer>
-    <p>&copy; {} {}</p>
+    <p>&copy; {current_year} {site_title}</p>
 </footer>
-"#,
-        current_year, site_title
+"#
     )
 }

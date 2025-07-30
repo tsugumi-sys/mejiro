@@ -8,16 +8,15 @@ pub fn aside_html(
         r#"
 <aside>
   <div class="logo">
-    <img src="{}" alt="Logo">
-    <span>{}</span>
+    <img src="{icon_path}" alt="Logo">
+    <span>{owner_name}</span>
   </div>
   <nav class="links">
     <a href="/">Home</a>
-    <a href="{}">GitHub</a>
-    <a href="{}">LinkedIn</a>
+    <a href="{owner_github_link}">GitHub</a>
+    <a href="{owner_linkedin_link}">LinkedIn</a>
   </nav>
 </aside>
-"#,
-        icon_path, owner_name, owner_github_link, owner_linkedin_link
+"#
     )
 }
