@@ -15,13 +15,13 @@ pub fn index_html(
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{} Blog</title>
-  <link rel="stylesheet" href="{}">
-  {}
+  <title>{owner_name} Blog</title>
+  <link rel="stylesheet" href="{csv_file_path}">
+  {icon_html}
 </head>
 <body>
   <div class="container">
-    {}
+    {aside_html}
     <main>
       <div class="search-bar-wrapper">
         <i id="search-trigger" class="fas fa-search"></i>
@@ -33,37 +33,42 @@ pub fn index_html(
 
       <h1>Posts</h1>
       <ul id="post-list">
-"#,
-        owner_name, csv_file_path, icon_html, aside_html
+"#
     );
 
     // Loop through the posts and build the list
     for post in posts {
-        let summary_html = post.meta.tldr.as_ref().map_or(String::new(), |s| {
-            format!(r#"<p class="summary">{}</p>"#, s)
-        });
+        let summary_html = post
+            .meta
+            .tldr
+            .as_ref()
+            .map_or(String::new(), |s| format!(r#"<p class="summary">{s}</p>"#));
 
         let topics_html = if !post.meta.topics.is_empty() {
             let topics = post.meta.topics.join(", ");
-            format!(r#"<p class="topics">Tags: {}</p>"#, topics)
+            format!(r#"<p class="topics">Tags: {topics}</p>"#)
         } else {
             String::new()
         };
 
         let date_html = format!(
-            r#"<p class="published-at">Published at: {}</p>"#,
-            post.meta.published_at
+            r#"<p class="published-at">Published at: {published_at}</p>"#,
+            published_at = post.meta.published_at
         );
 
         index_html.push_str(&format!(
             r#"        <li>
-          <a href="posts/{}.html"><strong>{}</strong></a>
-          {}
-          {}
-          {}
+          <a href="posts/{name}.html"><strong>{title}</strong></a>
+          {summary_html}
+          {topics_html}
+          {date_html}
         </li>
 "#,
-            post.name, post.meta.title, summary_html, topics_html, date_html
+            name = post.name,
+            title = post.meta.title,
+            summary_html = summary_html,
+            topics_html = topics_html,
+            date_html = date_html
         ));
     }
 

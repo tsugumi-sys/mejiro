@@ -17,8 +17,8 @@ impl std::fmt::Display for BlogParseError {
             BlogParseError::MetadataNotFound => {
                 write!(f, "The markdown file is missing a metadata (YAML) header.")
             }
-            BlogParseError::YamlParseError(msg) => write!(f, "Failed to parse metadata: {}", msg),
-            BlogParseError::IoError(msg) => write!(f, "File error: {}", msg),
+            BlogParseError::YamlParseError(msg) => write!(f, "Failed to parse metadata: {msg}"),
+            BlogParseError::IoError(msg) => write!(f, "File error: {msg}"),
         }
     }
 }
@@ -131,11 +131,10 @@ This is the blog post content.
                     msg.contains("while parsing a flow sequence")
                         || msg.contains("did not find expected ',' or ']'")
                         || msg.contains("expected ',' or ']'"),
-                    "Unexpected error message: {}",
-                    msg
+                    "Unexpected error message: {msg}",
                 );
             }
-            _ => panic!("Expected YamlParseError, got {:?}", result),
+            _ => panic!("Expected YamlParseError, got {result:?}"),
         }
     }
 

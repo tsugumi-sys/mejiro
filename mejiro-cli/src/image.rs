@@ -11,7 +11,8 @@ pub fn add(config_path: &str, image_path: &str) -> io::Result<()> {
     fs::create_dir_all(dest_dir)?;
     let dest = dest_dir.join(src.file_name().unwrap());
     fs::copy(src, &dest)?;
-    println!("✅ Added image: {}", dest.display());
+    let path = dest.display();
+    println!("✅ Added image: {path}");
     Ok(())
 }
 
@@ -19,7 +20,8 @@ pub fn list(config_path: &str) {
     let cfg = MejiroConfig::load_config(config_path);
     let dir = Path::new(&cfg.images_dir);
     if !dir.exists() {
-        eprintln!("❌ images directory not found: {}", dir.display());
+        let path = dir.display();
+        eprintln!("❌ images directory not found: {path}");
         return;
     }
     for entry in WalkDir::new(dir)
@@ -28,7 +30,8 @@ pub fn list(config_path: &str) {
         .filter(|e| e.file_type().is_file())
     {
         if let Ok(rel) = entry.path().strip_prefix(dir) {
-            println!("{}", rel.display());
+            let rel_path = rel.display();
+            println!("{rel_path}");
         }
     }
 }

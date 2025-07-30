@@ -27,11 +27,11 @@ impl MejiroConfig {
     /// Load blog configuration from YAML
     pub fn load_config(config_path: &str) -> Self {
         let contents = fs::read_to_string(config_path).unwrap_or_else(|e| {
-            panic!("❌ Could not read the config file: {} ({})", config_path, e);
+            panic!("❌ Could not read the config file: {config_path} ({e})");
         });
 
         serde_yaml::from_str(&contents).unwrap_or_else(|e| {
-            panic!("❌ Failed to parse YAML file '{}': {}", config_path, e);
+            panic!("❌ Failed to parse YAML file '{config_path}': {e}");
         })
     }
 
@@ -81,7 +81,7 @@ impl MejiroConfig {
         println!("\n🎉 Your Mejiro Blog structure:");
         for (name, desc) in entries {
             let padding = " ".repeat(longest_len - name.len() + 1);
-            println!("├── {}{}# {}", name, padding, desc);
+            println!("├── {name}{padding}# {desc}");
         }
     }
 

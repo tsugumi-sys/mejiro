@@ -48,17 +48,19 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
         match Post::from_markdown_file(entry.path()) {
             Ok(Some(post)) => posts.push(post),
             Ok(None) => {
-                println!("Skipping unpublished post: {}", entry.path().display());
+                let path = entry.path().display();
+                println!("Skipping unpublished post: {path}");
             }
             Err(e) => {
-                eprintln!("Error parsing {}: {}", entry.path().display(), e);
+                let path = entry.path().display();
+                eprintln!("Error parsing {path}: {e}");
             }
         }
     }
     posts.sort_by(|a, b| b.meta.published_at.cmp(&a.meta.published_at));
 
     // Build post pages
-    let icon_path_rel = format!("../{}", icon_file_name);
+    let icon_path_rel = format!("../{icon_file_name}");
     let aside = html::aside_html(
         &config.owner.name,
         &config.owner.github_link,
@@ -90,7 +92,7 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
 
     let post_paths: Vec<String> = posts
         .iter()
-        .map(|post| format!("{}.html", post.name))
+        .map(|post| format!("{name}.html", name = post.name))
         .collect();
 
     println!("\nOutput directory structure:");
@@ -105,15 +107,16 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     // Show top/bottom posts only if many
     if post_paths.len() > 10 {
         for path in &post_paths[..3] {
-            println!("│   ├── {}", path);
+            println!("│   ├── {path}");
         }
-        println!("│   ├── ... ({} posts omitted)", post_paths.len() - 6);
+        let omitted = post_paths.len() - 6;
+        println!("│   ├── ... ({omitted} posts omitted)");
         for path in &post_paths[post_paths.len() - 3..] {
-            println!("│   ├── {}", path);
+            println!("│   ├── {path}");
         }
     } else {
         for path in &post_paths {
-            println!("│   ├── {}", path);
+            println!("│   ├── {path}");
         }
     }
 
@@ -126,11 +129,11 @@ fn css_filename_with_hash(css_path: &Path) -> Option<String> {
         let mut hasher = Sha256::new();
         hasher.update(&bytes);
         let hash = hasher.finalize();
-        let hash_hex = format!("{:x}", hash);
+        let hash_hex = format!("{hash:x}");
 
-        Some(format!("style.{}.css", &hash_hex[..8]))
+        Some(format!("style.{hash}.css", hash = &hash_hex[..8]))
     } else {
-        eprintln!("CSS file not found: {:?}", css_path);
+        eprintln!("CSS file not found: {css_path:?}");
         None
     }
 }
@@ -139,7 +142,7 @@ fn copy_file(src: &Path, dest: &Path, description: &str) -> std::io::Result<()> 
     if src.exists() {
         fs::copy(src, dest)?;
     } else {
-        eprintln!("{} not found: {:?}", description, src);
+        eprintln!("{description} not found: {src:?}");
     }
     Ok(())
 }
@@ -157,7 +160,7 @@ fn copy_images(src_dir: &Path, dest_dir: &Path) {
             }
         }
     } else {
-        eprintln!("Images directory not found: {:?}", src_dir);
+        eprintln!("Images directory not found: {src_dir:?}");
     }
 }
 
@@ -170,10 +173,12 @@ fn build_post_pages(
     css_filename: &str,
 ) {
     for post in posts {
-        let output_path = output_dir.join("posts").join(format!("{}.html", post.name));
+        let output_path = output_dir
+            .join("posts")
+            .join(format!("{name}.html", name = post.name));
         fs::create_dir_all(output_path.parent().unwrap()).unwrap();
 
-        let css_relative_path = format!("../{}", css_filename);
+        let css_relative_path = format!("../{css_filename}");
         let post_html = html::post_html(post, aside, footer, icon, &css_relative_path);
         fs::write(&output_path, post_html).unwrap();
     }
