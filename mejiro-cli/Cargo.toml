@@ -1,6 +1,6 @@
 [package]
 name = "mejiro-cli"
-version = "0.1.19"
+version = "0.1.20"
 edition = "2024"
 description = "A CLI tool for Mejiro"
 license = "MIT OR Apache-2.0"
