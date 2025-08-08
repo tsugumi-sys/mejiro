@@ -7,13 +7,11 @@ body {
   line-height: 1.7;
   font-size: 1rem;
 }
-
 /* Layout */
 .container {
   display: flex;
   min-height: 100vh;
 }
-
 /* Sidebar */
 aside {
   width: 220px;
@@ -27,43 +25,36 @@ aside {
   top: 0;
   bottom: 0;
 }
-
 aside .logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin-bottom: 2rem;
 }
-
 aside .logo img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
-
 aside .logo span {
   font-weight: 600;
   font-size: 1rem;
   color: #0f172a;
 }
-
 aside .links {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
-
 aside .links a {
   color: #334155;
   text-decoration: none;
   font-size: 0.95rem;
 }
-
 aside .links a:hover {
   color: #ef4444;
   text-decoration: underline;
 }
-
 /* Main content */
 main {
   flex: 1;
@@ -71,40 +62,32 @@ main {
   padding: 4rem 2rem;
   max-width: 720px;
 }
-
 main h1 {
   font-size: 2rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
   color: #b91c1c;
 }
-
 main h2, main h3 {
   margin-top: 2.5rem;
   font-weight: 500;
 }
-
 main p {
   margin-top: 1.5rem;
 }
-
 main a {
   color: #dc2626;
   text-decoration: none;
 }
-
 main a:hover {
   text-decoration: underline;
 }
-
 main ul {
   padding-left: 1.5rem;
 }
-
 main li {
   margin-bottom: 0.75rem;
 }
-
 main blockquote {
   margin: 2rem 0;
   padding-left: 1rem;
@@ -112,7 +95,6 @@ main blockquote {
   color: #64748b;
   font-style: italic;
 }
-
 /* Code styling */
 main pre {
   background-color: #1e1e1e;
@@ -125,16 +107,13 @@ main pre {
   margin-top: 2rem;
   font-family: 'Source Code Pro', monospace;
 }
-
 main code {
   font-family: 'Source Code Pro', monospace;
 }
-
 /* Search bar */
 .search-bar-wrapper {
   margin-bottom: 2rem;
 }
-
 #search-wrapper {
   display: flex;
   align-items: center;
@@ -144,7 +123,6 @@ main code {
   padding: 0.4rem 0.6rem;
   background-color: #f1f5f9;
 }
-
 #search-input {
   flex: 1;
   background: transparent;
@@ -153,12 +131,14 @@ main code {
   color: #0f172a;
   font-size: 0.9rem;
 }
-
 #search-input::placeholder {
   color: #94a3b8;
   opacity: 0.8;
 }
-
+/* Search functionality - Hide/Show elements */
+.hidden {
+  display: none !important;
+}
 /* Footer */
 footer {
   text-align: center;
@@ -168,13 +148,11 @@ footer {
   margin-left: 220px;
   border-top: 1px solid #e2e8f0;
 }
-
 /* Responsive layout */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
   }
-
   aside {
     width: 100%;
     position: static;
@@ -183,32 +161,27 @@ footer {
     border-right: none;
     border-bottom: 1px solid #e2e8f0;
   }
-
   main {
     margin-left: 0;
     padding: 2rem 1rem;
   }
-
   footer {
     margin-left: 0;
   }
 }
-
+/* Post list styling */
 #post-list li {
   margin-bottom: 2rem;
 }
-
 #post-list li a {
   color: #dc2626;
   text-decoration: none;
   display: inline-block;
   margin-bottom: 0.25rem; /* tighter space below the title */
 }
-
 #post-list li a:hover {
   color: #38bdf8;
 }
-
 #post-list li .summary,
 #post-list li .topics,
 #post-list li .published-at {
@@ -216,8 +189,34 @@ footer {
   font-size: 0.85rem;
   color: #94a3b8;
 }
-
 #post-list li p:first-of-type {
   margin-top: 0; /* remove top margin for first paragraph (summary) */
+}
+/* Search results styling */
+#search-results {
+  padding-left: 0; /* Remove default ul padding for search results */
+}
+#search-results li {
+  margin-bottom: 2rem;
+  list-style: none; /* Remove bullet points for search results */
+}
+#search-results li a {
+  color: #dc2626;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 0.25rem;
+}
+#search-results li a:hover {
+  color: #38bdf8;
+}
+#search-results li .summary,
+#search-results li .topics,
+#search-results li .published-at {
+  margin: 0.25rem 0;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+#search-results li p:first-of-type {
+  margin-top: 0;
 }
 
