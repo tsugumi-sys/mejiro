@@ -17,6 +17,15 @@ pub fn index_html(
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{owner_name} Blog</title>
   <link rel="stylesheet" href="{csv_file_path}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+  <script>
+    // Load languages on demand from the CDN
+    if (window.Prism && Prism.plugins.autoloader) {{
+      Prism.plugins.autoloader.languages_path = "https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/";
+    }}
+  </script>
   {icon_html}
 </head>
 <body>
@@ -156,6 +165,7 @@ pub fn index_html(
     searchInput.addEventListener('input', doSearch);
 
     initialize();
+    Prism.highlightAll();
   </script>
 "#,
     );
