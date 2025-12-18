@@ -60,6 +60,22 @@ mejiro-cli list
 List post metadata stored in the `posts` directory. Use `-a` to include
 unpublished drafts.
 
+## 🧩 Code Block Insertion
+
+Embed code from external files directly into your Markdown posts:
+
+1. Create a directory for your post, e.g. `posts/20250618-test/`.
+2. Add the code files you want to reference into that directory.
+3. Use `@code[path/to/file]` in your Markdown to inline the file contents.
+
+Example:
+
+```markdown
+Here's my code:
+
+@code[20250618-test/main.py]
+```
+
 
 ## About
 

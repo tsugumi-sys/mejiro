@@ -3,6 +3,8 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::Path;
 
+use crate::code_block::preprocess_code_includes;
+
 /// Possible errors when parsing a blog post from a Markdown file.
 #[derive(Debug)]
 pub enum BlogParseError {
@@ -39,32 +41,32 @@ impl BlogMeta {
     pub fn from_markdown_str(content: &str) -> Result<(Self, String), BlogParseError> {
         let mut lines = content.lines();
 
-        if let Some(first_line) = lines.next() {
-            if first_line.trim() == "---" {
-                let mut meta_lines = Vec::new();
+        if let Some(first_line) = lines.next()
+            && first_line.trim() == "---"
+        {
+            let mut meta_lines = Vec::new();
 
-                for line in &mut lines {
-                    if line.trim() == "---" {
-                        break;
-                    }
-                    meta_lines.push(line);
+            for line in &mut lines {
+                if line.trim() == "---" {
+                    break;
                 }
-
-                let meta_str = meta_lines.join("\n");
-
-                let meta: BlogMeta = serde_yaml::from_str(&meta_str).map_err(|e| {
-                    BlogParseError::YamlParseError(
-                        e.to_string()
-                            .lines()
-                            .next()
-                            .unwrap_or("unknown error")
-                            .to_string(),
-                    )
-                })?;
-
-                let body = lines.collect::<Vec<_>>().join("\n");
-                return Ok((meta, body));
+                meta_lines.push(line);
             }
+
+            let meta_str = meta_lines.join("\n");
+
+            let meta: BlogMeta = serde_yaml::from_str(&meta_str).map_err(|e| {
+                BlogParseError::YamlParseError(
+                    e.to_string()
+                        .lines()
+                        .next()
+                        .unwrap_or("unknown error")
+                        .to_string(),
+                )
+            })?;
+
+            let body = lines.collect::<Vec<_>>().join("\n");
+            return Ok((meta, body));
         }
 
         Err(BlogParseError::MetadataNotFound)
@@ -94,7 +96,11 @@ impl Post {
             return Ok(None);
         }
 
-        let parser = Parser::new(&body_md);
+        // Preprocess the markdown body to replace @code[...] directives with actual code blocks
+        let base_dir = path.parent().unwrap_or_else(|| Path::new("."));
+        let processed_body = preprocess_code_includes(&body_md, base_dir);
+
+        let parser = Parser::new(&processed_body);
         let mut html_output = String::new();
         html::push_html(&mut html_output, parser);
 
