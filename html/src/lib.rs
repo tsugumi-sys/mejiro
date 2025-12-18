@@ -1,4 +1,5 @@
 mod aside;
+pub mod code_block;
 mod footer;
 mod icon;
 mod index;
