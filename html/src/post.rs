@@ -2,6 +2,7 @@ use crate::metadata::Post;
 
 pub fn post_html(
     post: &Post,
+    site_title: &str,
     aside_html: &str,
     footer_html: &str,
     icon_html: &str,
@@ -26,6 +27,7 @@ pub fn post_html(
     );
 
     // Final HTML assembly
+    let og_description = post.meta.tldr.as_deref().unwrap_or(site_title);
     format!(
         r#"<!DOCTYPE html>
 <html lang="en">
@@ -33,6 +35,10 @@ pub fn post_html(
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
+  <meta property="og:title" content="{og_title}" />
+  <meta property="og:description" content="{og_description}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="{site_title}" />
   <link rel="stylesheet" href="{css_file_path}">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
   <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
@@ -61,6 +67,9 @@ pub fn post_html(
 </html>
 "#,
         title = post.meta.title,
+        og_title = post.meta.title,
+        og_description = og_description,
+        site_title = site_title,
         css_file_path = css_file_path,
         icon_html = icon_html,
         aside_html = aside_html,

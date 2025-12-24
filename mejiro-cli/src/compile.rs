@@ -71,6 +71,7 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
     build_post_pages(
         &posts,
         Path::new(output_dir),
+        &config.site_title,
         &aside,
         &footer,
         &icon,
@@ -167,6 +168,7 @@ fn copy_images(src_dir: &Path, dest_dir: &Path) {
 fn build_post_pages(
     posts: &[Post],
     output_dir: &Path,
+    site_title: &str,
     aside: &str,
     footer: &str,
     icon: &str,
@@ -179,7 +181,7 @@ fn build_post_pages(
         fs::create_dir_all(output_path.parent().unwrap()).unwrap();
 
         let css_relative_path = format!("../{css_filename}");
-        let post_html = html::post_html(post, aside, footer, icon, &css_relative_path);
+        let post_html = html::post_html(post, site_title, aside, footer, icon, &css_relative_path);
         fs::write(&output_path, post_html).unwrap();
     }
 }
