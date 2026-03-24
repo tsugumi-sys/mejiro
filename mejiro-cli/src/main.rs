@@ -4,6 +4,7 @@ use mejiro_cli::compile::compile;
 use mejiro_cli::image::{add as image_add, list as image_list};
 use mejiro_cli::list::list as post_list;
 use mejiro_cli::new::new;
+use mejiro_cli::upgrade::upgrade;
 
 #[derive(Parser)]
 #[command(name = "mejiro-cli", version = env!("CARGO_PKG_VERSION"), about = "Blog management CLI")]
@@ -47,6 +48,8 @@ enum Commands {
         #[command(subcommand)]
         command: ImageCommands,
     },
+    /// Download and install the latest mejiro-cli release
+    Upgrade,
 }
 
 #[derive(Subcommand)]
@@ -97,5 +100,11 @@ fn main() {
                 image_list(&config_file);
             }
         },
+        Commands::Upgrade => {
+            if let Err(e) = upgrade() {
+                eprintln!("❌ Upgrade failed: {e}");
+                std::process::exit(1);
+            }
+        }
     }
 }

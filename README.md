@@ -21,6 +21,8 @@ Example: https://blog.tsugumisys.com/
 curl -fsSL https://raw.githubusercontent.com/tsugumi-sys/mejiro/main/install/install.sh | bash
 ```
 
+The installer puts `mejiro-cli` in `~/.local/bin`. Make sure that directory is on your `PATH`.
+
 
 ## 📦 Usage
 
@@ -59,6 +61,12 @@ mejiro-cli list
 
 List post metadata stored in the `posts` directory. Use `-a` to include
 unpublished drafts.
+
+```bash
+mejiro-cli upgrade
+```
+
+Download and install the latest published `mejiro-cli` release over the current binary.
 
 ## 🧩 Code Block Insertion
 
