@@ -95,6 +95,28 @@ main blockquote {
   color: #64748b;
   font-style: italic;
 }
+main table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  display: block;
+  overflow-x: auto;
+}
+main th,
+main td {
+  border: 1px solid #cbd5e1;
+  padding: 0.75rem 0.9rem;
+  text-align: left;
+  vertical-align: top;
+}
+main th {
+  background-color: #f8fafc;
+  color: #0f172a;
+  font-weight: 600;
+}
+main tbody tr:nth-child(even) {
+  background-color: #fff7ed;
+}
 /* Code styling */
 main pre {
   background-color: #1e1e1e;
@@ -219,4 +241,3 @@ footer {
 #search-results li p:first-of-type {
   margin-top: 0;
 }
-
