@@ -24,11 +24,22 @@ curl -L -O "https://github.com/tsugumi-sys/mejiro/releases/latest/download/$FILE
 echo "Extracting..."
 tar -xzf "$FILE"
 
-echo "Installing to /usr/local/bin/ ..."
-sudo mv mejiro-cli /usr/local/bin/
+INSTALL_DIR="${HOME}/.local/bin"
+mkdir -p "$INSTALL_DIR"
+
+echo "Installing to ${INSTALL_DIR}/ ..."
+mv mejiro-cli "${INSTALL_DIR}/mejiro-cli"
+chmod 755 "${INSTALL_DIR}/mejiro-cli"
 
 echo "Cleaning up..."
 rm "$FILE"
 
 echo "✅ Installation complete! Run 'mejiro-cli --help' to see usage."
 
+case ":$PATH:" in
+  *":${INSTALL_DIR}:"*)
+    ;;
+  *)
+    echo "Add ${INSTALL_DIR} to your PATH if it is not already available in new shells."
+    ;;
+esac
