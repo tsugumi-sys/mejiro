@@ -1,4 +1,4 @@
-use pulldown_cmark::{Parser, html};
+use pulldown_cmark::{Options, Parser, html};
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::Path;
@@ -100,9 +100,7 @@ impl Post {
         let base_dir = path.parent().unwrap_or_else(|| Path::new("."));
         let processed_body = preprocess_code_includes(&body_md, base_dir);
 
-        let parser = Parser::new(&processed_body);
-        let mut html_output = String::new();
-        html::push_html(&mut html_output, parser);
+        let html_output = render_markdown_to_html(&processed_body);
 
         Ok(Some(Post {
             meta,
@@ -113,9 +111,43 @@ impl Post {
     }
 }
 
+fn render_markdown_to_html(markdown: &str) -> String {
+    let parser = Parser::new_ext(markdown, markdown_options());
+    let mut html_output = String::new();
+    html::push_html(&mut html_output, parser);
+    html_output
+}
+
+fn markdown_options() -> Options {
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_TABLES);
+    options
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_render_markdown_to_html_table() {
+        let markdown = r#"| Name | Value |
+| --- | --- |
+| mejiro | bird |"#;
+
+        let html = render_markdown_to_html(markdown);
+
+        assert!(html.contains("<table>"), "Expected table HTML, got: {html}");
+        assert!(html.contains("<thead>"), "Expected table head, got: {html}");
+        assert!(html.contains("<tbody>"), "Expected table body, got: {html}");
+        assert!(
+            html.contains("<th>Name</th>"),
+            "Expected header cell, got: {html}"
+        );
+        assert!(
+            html.contains("<td>bird</td>"),
+            "Expected body cell, got: {html}"
+        );
+    }
 
     #[test]
     fn test_from_markdown_str_invalid_yaml() {
