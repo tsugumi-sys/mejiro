@@ -3,9 +3,11 @@ use std::fs;
 use std::io::Write;
 use std::path::Path;
 
+mod comments;
 mod owner;
 mod styles;
 
+pub use comments::GiscusConfig;
 use owner::BlogOwner;
 use serde::{Deserialize, Serialize};
 use styles::BlogStyles;
@@ -17,6 +19,8 @@ pub struct MejiroConfig {
     pub styles: BlogStyles,
     #[serde(default = "default_images_dir")]
     pub images_dir: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub giscus: Option<GiscusConfig>,
 }
 
 fn default_images_dir() -> String {
@@ -53,6 +57,7 @@ impl MejiroConfig {
                 icon: "icon.png".to_string(),
             },
             images_dir: "images".to_string(),
+            giscus: None,
         };
 
         Self::write_config_file(config_path, &default_config);

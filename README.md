@@ -49,6 +49,28 @@ mejiro-cli compile
 
 This compiles your Markdown posts into static HTML files.
 
+## 💬 Giscus Comments
+
+Mejiro can embed [giscus](https://github.com/giscus/giscus) comments on post pages. Generate your repository values at https://giscus.app, then add them to `mejiro.yml`:
+
+```yaml
+giscus:
+  repo: "owner/repo"
+  repo_id: "R_..."
+  category: "Announcements"
+  category_id: "DIC_..."
+  mapping: "pathname"
+  strict: false
+  reactions_enabled: true
+  emit_metadata: false
+  input_position: "bottom"
+  theme: "preferred_color_scheme"
+  lang: "en"
+  loading: "lazy"
+```
+
+If the `giscus` block is omitted, no comments section is rendered.
+
 ```bash
 mejiro-cli image add ./path/to/image.png
 ```
