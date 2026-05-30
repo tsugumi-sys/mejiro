@@ -150,6 +150,39 @@ mod tests {
     }
 
     #[test]
+    fn test_render_markdown_to_html_tables_with_alignment_and_code() {
+        let markdown = r#"| document size | target | ops/sec | p50 | p95 |
+| ---: | --- | ---: | ---: | ---: |
+| `512 B` | files | `82,316.78` | `0.011583ms` | `0.016333ms` |
+| `512 B` | SQLite | `416,399.48` | `0.002417ms` | `0.003125ms` |
+
+| query | target | elapsed | matches |
+| --- | --- | ---: | ---: |
+| `latency` | `rg` over files | `0.187665s` | `9,920` |
+| `latency` | SQLite FTS5 | `0.000809s` | `9,920` |"#;
+
+        let html = render_markdown_to_html(markdown);
+
+        assert_eq!(
+            html.matches("<table>").count(),
+            2,
+            "Expected two tables, got: {html}"
+        );
+        assert!(
+            html.contains(r#"<th style="text-align: right">document size</th>"#),
+            "Expected right-aligned header cell, got: {html}"
+        );
+        assert!(
+            html.contains("<code>512 B</code>"),
+            "Expected inline code in table cell, got: {html}"
+        );
+        assert!(
+            html.contains(r#"<td style="text-align: right"><code>0.000809s</code></td>"#),
+            "Expected right-aligned body cell with inline code, got: {html}"
+        );
+    }
+
+    #[test]
     fn test_from_markdown_str_invalid_yaml() {
         let markdown = r#"---
 title: "Test Post"

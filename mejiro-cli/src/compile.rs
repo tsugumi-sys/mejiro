@@ -1,5 +1,5 @@
 use crate::posts_json::generate_posts_json;
-use config::MejiroConfig;
+use config::{GiscusConfig, MejiroConfig};
 use html;
 use html::metadata::Post;
 use sha2::{Digest, Sha256};
@@ -68,15 +68,16 @@ pub fn compile(input_dir: &str, output_dir: &str, config_path: &str) {
         &icon_path_rel,
     );
     let icon = html::icon_html(&icon_path_rel);
-    build_post_pages(
-        &posts,
-        Path::new(output_dir),
-        &config.site_title,
-        &aside,
-        &footer,
-        &icon,
-        &css_filename,
-    );
+    let post_page_context = PostPageContext {
+        output_dir: Path::new(output_dir),
+        site_title: &config.site_title,
+        aside: &aside,
+        footer: &footer,
+        icon: &icon,
+        css_filename: &css_filename,
+        giscus: config.giscus.as_ref(),
+    };
+    build_post_pages(&posts, &post_page_context);
 
     // Build index.html
     build_index_page(
@@ -165,25 +166,84 @@ fn copy_images(src_dir: &Path, dest_dir: &Path) {
     }
 }
 
-fn build_post_pages(
-    posts: &[Post],
-    output_dir: &Path,
-    site_title: &str,
-    aside: &str,
-    footer: &str,
-    icon: &str,
-    css_filename: &str,
-) {
+struct PostPageContext<'a> {
+    output_dir: &'a Path,
+    site_title: &'a str,
+    aside: &'a str,
+    footer: &'a str,
+    icon: &'a str,
+    css_filename: &'a str,
+    giscus: Option<&'a GiscusConfig>,
+}
+
+fn build_post_pages(posts: &[Post], context: &PostPageContext<'_>) {
     for post in posts {
-        let output_path = output_dir
+        let output_path = context
+            .output_dir
             .join("posts")
             .join(format!("{name}.html", name = post.name));
         fs::create_dir_all(output_path.parent().unwrap()).unwrap();
 
-        let css_relative_path = format!("../{css_filename}");
-        let post_html = html::post_html(post, site_title, aside, footer, icon, &css_relative_path);
+        let css_relative_path = format!("../{css_filename}", css_filename = context.css_filename);
+        let comments_html = context.giscus.map(giscus_html).unwrap_or_default();
+        let post_html = html::post_html(
+            post,
+            context.site_title,
+            context.aside,
+            context.footer,
+            context.icon,
+            &css_relative_path,
+            &comments_html,
+        );
         fs::write(&output_path, post_html).unwrap();
     }
+}
+
+fn giscus_html(config: &GiscusConfig) -> String {
+    format!(
+        r#"<section class="comments">
+  <script src="https://giscus.app/client.js"
+    data-repo="{repo}"
+    data-repo-id="{repo_id}"
+    data-category="{category}"
+    data-category-id="{category_id}"
+    data-mapping="{mapping}"
+    data-strict="{strict}"
+    data-reactions-enabled="{reactions_enabled}"
+    data-emit-metadata="{emit_metadata}"
+    data-input-position="{input_position}"
+    data-theme="{theme}"
+    data-lang="{lang}"
+    data-loading="{loading}"
+    crossorigin="anonymous"
+    async>
+  </script>
+</section>"#,
+        repo = html_attr(&config.repo),
+        repo_id = html_attr(&config.repo_id),
+        category = html_attr(&config.category),
+        category_id = html_attr(&config.category_id),
+        mapping = html_attr(&config.mapping),
+        strict = bool_attr(config.strict),
+        reactions_enabled = bool_attr(config.reactions_enabled),
+        emit_metadata = bool_attr(config.emit_metadata),
+        input_position = html_attr(&config.input_position),
+        theme = html_attr(&config.theme),
+        lang = html_attr(&config.lang),
+        loading = html_attr(&config.loading),
+    )
+}
+
+fn bool_attr(value: bool) -> &'static str {
+    if value { "1" } else { "0" }
+}
+
+fn html_attr(value: &str) -> String {
+    value
+        .replace('&', "&amp;")
+        .replace('"', "&quot;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
 }
 
 fn build_index_page(

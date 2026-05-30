@@ -7,6 +7,7 @@ pub fn post_html(
     footer_html: &str,
     icon_html: &str,
     css_file_path: &str,
+    comments_html: &str,
 ) -> String {
     // Generate the header for the post
     let header_html = format!(
@@ -59,6 +60,7 @@ pub fn post_html(
       <article>
         {body}
       </article>
+      {comments_html}
     </main>
   </div>
   {footer_html}
@@ -75,6 +77,7 @@ pub fn post_html(
         aside_html = aside_html,
         header_html = header_html,
         body = post.html_body,
+        comments_html = comments_html,
         footer_html = footer_html
     )
 }
